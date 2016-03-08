@@ -13,7 +13,8 @@ all:$(SUBDIRS) $(CUR_OBJS)
 $(SUBDIRS):ECHO
 	make -C $@
 $(CUR_OBJS):%.o:%.c
-	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@
+	@echo $@
+	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 ECHO:
 	@echo $(SUBDIRS)
 	@echo

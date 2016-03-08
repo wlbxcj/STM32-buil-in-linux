@@ -83,13 +83,11 @@ $(FNAME).elf:$(ALL_O)
 		
 
 $(ALL_O) : $(BUILD_S) $(SUBDIRS) $(CUF_OBJ)
-	@echo $@
+	@echo
 
 
 $(BUILD_S):%.o:stlib/%.s
-	@echo 1111111111111111111111
-	@echo 2222222222222222
-	@echo 2333333333333333333333
+	#if [ ! -f $(OBJS_DIR) ]; then mkdir debug;mkdir debug/obj; fi;
 	@echo cc: $^
 	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $^ -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 
@@ -97,8 +95,8 @@ $(SUBDIRS):ECHO
 	make -C $@
 
 $(CUF_OBJ):%.o:%.c
-	@echo cc: $^
-	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $(ROOT_DIR)/$(OBJS_DIR)/$@
+	@echo cc: $@
+	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $^ -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 
 ECHO:
 	@echo $(DIR_OBJS)

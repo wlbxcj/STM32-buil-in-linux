@@ -1,8 +1,5 @@
-INCS += -I$(shell pwd) -I$(ROOT_DIR)/stlib/inc -I$(ROOT_DIR)/stlib
+INCS += -I$(shell pwd)
 
-vpath %.S stlib
-vpath %.c stlib platform newlib stlib/src driver/uart
-vpath %.h stlib platform stlib/cminc stlib/inc driver/uart
 
 #子目录的Makefile直接读取其子目录就行
 SUBDIRS=$(shell ls -l | grep ^d | awk '{print $$9}')
@@ -17,6 +14,7 @@ all:$(SUBDIRS) $(CUR_OBJS)
 $(SUBDIRS):ECHO
 	make -C $@
 $(CUR_OBJS):%.o:%.c
+	@echo $@
 	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 ECHO:
 	@echo $(SUBDIRS)
