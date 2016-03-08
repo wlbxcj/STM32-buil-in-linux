@@ -1,4 +1,4 @@
-# STM32-buil-in-linux
+# STM32-build-in-linux
 在LINUX下编译STM32
 
 使用以下编译器
