@@ -19,15 +19,10 @@ LFLAGS += -Wl,-Map=flash_sram.map
 
 DEFS += -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD
 
-ROOT_DIR	=   $(shell pwd)
 SUBDIRS		=	$(shell ls -l | grep ^d | awk '{if($$9 != "debug") print $$9}')
-CUR_SOURCE  =   $(wildcard *.c)
-BUILD_S		= 	startup_stm32f10x_hd.o
-
 OBJS_DIR	=	debug/obj
-CUF_OBJ     =   ${patsubst %.c, %.o, $(CUR_SOURCE)}
 
-INCS += -I$(ROOT_DIR)/stlib -I$(ROOT_DIR)/stlib/cminc -I$(ROOT_DIR)/stlib/inc -I$(ROOT_DIR)/platform -I$(ROOT_DIR)/newlib -I$(ROOT_DIR)/driver/uart
+INCS += -Istlib -Istlib/cminc -Istlib/inc -Iplatform -Inewlib -Idriver/uart
 
 
 SOURCES +=
@@ -35,7 +30,7 @@ SOURCES +=
 CROSS_COMPILE:=~/ST/gcc-arm-none-eabi/bin/arm-none-eabi-
 CC := $(CROSS_COMPILE)gcc
 
-export CC CROSS_COMPILE CFLAGS DEFS INCS SOURCES ROOT_DIR OBJS_DIR
+export CC CROSS_COMPILE OBJS CFLAGS DEFS INCS SOURCES SUBDIRS 
 
 LD   := stm32_flash_hd.ld
 
@@ -51,7 +46,7 @@ SOURCES += $(wildcard *.c)
 
 
 
-#DIR_OBJS += startup_stm32f10x_hd.o 
+OBJS += stlib/startup_stm32f10x_hd.o 
 #OBJS += stlib/src/stm32f10x_rcc.o stlib/src/stm32f10x_gpio.o 
 #OBJS += stlib/src/stm32f10x_usart.o
 #OBJS += platform/init.o platform/ringbuffer.o platform/usart.o
@@ -59,62 +54,59 @@ SOURCES += $(wildcard *.c)
 #OBJS += stlib/src/misc.o main.o
 #OBJS += driver/uart/uart.o
 
-DIR_OBJS += $(patsubst %.c, %.o, $(SOURCES))
+OBJS += $(patsubst %.c, %.o, $(SOURCES))
 
-#OBJ_FLASH += system_stm32f10x.o #code startup from flash 
+OBJ_FLASH += stlib/system_stm32f10x.o #code startup from flash 
+OBJ_SRAM  += stlib/system_stm32f10x_sram.o #code startup from sram 
 
 
 #change flash code name and sram code name there!!
 FNAME = serial
+SNAME = serials
 
 all:$(FNAME).bin
+sram:$(SNAME).bin
 
+clean:
+	@echo rm .o .bin .elf...
+	@rm -f $(OBJS) $(OBJ_FLASH) $(OBJ_SRAM)  
+	@rm -f $(FNAME).bin $(FNAME).elf $(SNAME).bin $(SNAME).elf
+	@echo
+	
 $(FNAME).bin:$(FNAME).elf
 	@echo Finish...
 	@$(CROSS_COMPILE)objcopy -O binary -S $< $@
 	@echo
 
-ALL_O = $(ROOT_DIR)/$(OBJS_DIR)/*.o
+$(SNAME).bin:$(SNAME).elf
+	@$(CROSS_COMPILE)objcopy -O binary -S $< $@
 
-$(FNAME).elf:$(ALL_O)
-	@echo $@
+
+$(FNAME).elf:$(OBJS) $(OBJ_FLASH)
+	@echo
 	@$(CROSS_COMPILE)gcc $(LFLAGS) $^ -Tstlib/$(LD) -o $@
 	@$(CROSS_COMPILE)size $@
-		
-
-$(ALL_O) : $(BUILD_S) $(SUBDIRS) $(CUF_OBJ)
-	@echo $@
-
-
-$(BUILD_S):%.o:stlib/%.s
-	@echo 1111111111111111111111
-	@echo 2222222222222222
-	@echo 2333333333333333333333
-	@echo cc: $^
-	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $^ -o $(ROOT_DIR)/$(OBJS_DIR)/$@
-
-$(SUBDIRS):ECHO
-	make -C $@
-
-$(CUF_OBJ):%.o:%.c
-	@echo cc: $^
-	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $(ROOT_DIR)/$(OBJS_DIR)/$@
-
-ECHO:
-	@echo $(DIR_OBJS)
-	@echo
-    
-.PHONY: all clean burn burns
-
+	
+$(SNAME).elf:$(OBJS) $(OBJ_SRAM)
+	@$(CROSS_COMPILE)gcc $(LFLAGS) $^ -Tstlib/sram.ld -o $@
+	@$(CROSS_COMPILE)size $@
+	
 burn:$(FNAME).bin
 	@st-flash write $< 0x08000000
+burns:$(SNAME).bin
+	@st-flash write $< 0x20005000
 
 
-clean:
-	@echo rm .o .bin .elf...
-	@rm -f $(ROOT_DIR)/$(OBJS_DIR)/*.o $(ROOT_DIR)/$(OBJS_DIR)/*.elf
-	@rm -f $(FNAME).bin $(FNAME).elf
-	@echo
+	
+%.o:%.S
+	@echo cc: $<
+	@$(CROSS_COMPILE)gcc $(CFLAGS) -c $^ -o $@
+%.o:%.c
+	@echo cc: $<
+	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $@
+
+.PHONY: all clean burn burns
+
 
 
 
