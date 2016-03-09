@@ -1454,7 +1454,7 @@ LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/ar
  libc.a(*)
  libm.a(*)
  libgcc.a(*)
-OUTPUT(serial.elf elf32-littlearm)
+OUTPUT(Project.elf elf32-littlearm)
 
 .comment        0x00000000       0x6e
  .comment       0x00000000       0x6e /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/main.o
