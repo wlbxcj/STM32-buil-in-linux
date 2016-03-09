@@ -15,17 +15,20 @@ LFLAGS += -specs=nano.specs
 #LFLAGS += -u_printf_float 						#Use this option if you want print float
 #LFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LFLAGS += -Wl,--gc-sections 
-LFLAGS += -Wl,-Map=flash_sram.map
+LFLAGS += -Wl,-Map=$(FNAME).map
 
 DEFS += -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD
 
 ROOT_DIR	=   $(shell pwd)
-SUBDIRS		=	$(shell ls -l | grep ^d | awk '{if($$9 != "debug") print $$9}')
-CUR_SOURCE  =   $(wildcard *.c)
+SUBDIRS		=	$(shell ls -l | grep ^d | awk '{if($$9 != "debug" && $$9 != "usr") print $$9}')
+TARGET_SOURCE  =   stm32f10x_it.c main.c
 BUILD_S		= 	startup_stm32f10x_hd.o
 
 OBJS_DIR	=	debug/obj
-CUF_OBJ     =   ${patsubst %.c, %.o, $(CUR_SOURCE)}
+EXEC_DIR	= 	debug/Exc
+CUF_OBJ     =   ${patsubst %.c, %.o, $(TARGET_SOURCE)}
+ALL_O		= 	$(ROOT_DIR)/$(OBJS_DIR)/*.o
+
 
 INCS += -I$(ROOT_DIR)/stlib -I$(ROOT_DIR)/stlib/cminc -I$(ROOT_DIR)/stlib/inc -I$(ROOT_DIR)/platform -I$(ROOT_DIR)/newlib -I$(ROOT_DIR)/driver/uart
 
@@ -33,7 +36,7 @@ INCS += -I$(ROOT_DIR)/stlib -I$(ROOT_DIR)/stlib/cminc -I$(ROOT_DIR)/stlib/inc -I
 CROSS_COMPILE:=~/ST/gcc-arm-none-eabi/bin/arm-none-eabi-
 CC := $(CROSS_COMPILE)gcc
 
-export CC CROSS_COMPILE CFLAGS DEFS INCS SOURCES ROOT_DIR OBJS_DIR
+export CC CROSS_COMPILE CFLAGS DEFS INCS ROOT_DIR OBJS_DIR
 
 LD   := stm32_flash_hd.ld
 
@@ -47,16 +50,14 @@ FNAME = Project
 all:$(FNAME).bin
 
 $(FNAME).bin:$(FNAME).elf
-	@echo Finish...
-	@$(CROSS_COMPILE)objcopy -O binary -S $< $@
+	@$(CROSS_COMPILE)objcopy -O binary -S $(EXEC_DIR)/$< $(EXEC_DIR)/$@
 	@echo
-
-ALL_O = $(ROOT_DIR)/$(OBJS_DIR)/*.o
+	@echo Finish...
 
 $(FNAME).elf:$(ALL_O)
 	@echo $@
-	@$(CROSS_COMPILE)gcc $(LFLAGS) $^ -Tstlib/$(LD) -o $@
-	@$(CROSS_COMPILE)size $@
+	@$(CROSS_COMPILE)gcc $(LFLAGS) $^ -Tstlib/$(LD) -o $(EXEC_DIR)/$@
+	@$(CROSS_COMPILE)size $(EXEC_DIR)/$@
 		
 
 $(ALL_O) : $(BUILD_S) $(SUBDIRS) $(CUF_OBJ)
@@ -70,15 +71,13 @@ $(BUILD_S):%.o:stlib/%.s
 $(SUBDIRS):ECHO
 	make -C $@
 
-$(CUF_OBJ):%.o:%.c
-	@echo cc: $@
+$(CUF_OBJ):%.o:usr/%.c
+	@echo cc: $^
 	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $^ -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 
 ECHO:
-	#@echo $(SUBDIRS)
+	@echo $(SUBDIRS)...
 	@echo
-    
-.PHONY: all clean burn burns
 
 burn:$(FNAME).bin
 	@st-flash write $< 0x08000000
@@ -86,8 +85,8 @@ burn:$(FNAME).bin
 
 clean:
 	@echo rm .o .bin .elf...
-	@rm -f $(ROOT_DIR)/$(OBJS_DIR)/*.o $(ROOT_DIR)/$(OBJS_DIR)/*.elf
-	@rm -f $(FNAME).bin $(FNAME).elf *.map
+	@rm -f $(ROOT_DIR)/$(OBJS_DIR)/*
+	@rm -f $(EXEC_DIR)/* *.map
 	@echo
 
 
