@@ -15,7 +15,7 @@ LFLAGS += -specs=nano.specs
 #LFLAGS += -u_printf_float 						#Use this option if you want print float
 #LFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LFLAGS += -Wl,--gc-sections 
-LFLAGS += -Wl,-Map=$(FNAME).map
+LFLAGS += -Wl,-Map=$(EXEC_DIR)/$(FNAME).map
 
 DEFS += -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD
 
@@ -51,7 +51,10 @@ all:$(FNAME).bin
 
 $(FNAME).bin:$(FNAME).elf
 	@$(CROSS_COMPILE)objcopy -O binary -S $(EXEC_DIR)/$< $(EXEC_DIR)/$@
-	@echo
+	@$(CROSS_COMPILE)objcopy -O ihex $(EXEC_DIR)/$< $(EXEC_DIR)/$(FNAME).hex
+	@echo 
+	@echo ouput $(EXEC_DIR)/$@
+	@echo ouput $(EXEC_DIR)/$(FNAME).hex
 	@echo Finish...
 
 $(FNAME).elf:$(ALL_O)
@@ -86,7 +89,7 @@ burn:$(FNAME).bin
 clean:
 	@echo rm .o .bin .elf...
 	@rm -f $(ROOT_DIR)/$(OBJS_DIR)/*
-	@rm -f $(EXEC_DIR)/* *.map
+	@rm -f $(EXEC_DIR)/*
 	@echo
 
 

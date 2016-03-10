@@ -1,5 +1,6 @@
 INCS += -I$(shell pwd)
 
+
 #子目录的Makefile直接读取其子目录就行
 SUBDIRS=$(shell ls -l | grep ^d | awk '{print $$9}')
 
@@ -13,7 +14,7 @@ all:$(SUBDIRS) $(CUR_OBJS)
 $(SUBDIRS):ECHO
 	make -C $@
 $(CUR_OBJS):%.o:%.c
-	@echo $@
+	@echo $^
 	@$(CROSS_COMPILE)gcc $(CFLAGS) $(DEFS) $(INCS) -c $< -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 ECHO:
 	@echo $(SUBDIRS)

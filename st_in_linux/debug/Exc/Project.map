@@ -22,6 +22,52 @@ Discarded input sections
  .ARM.exidx     0x00000000        0x8 /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/crt0.o
  .ARM.attributes
                 0x00000000       0x1b /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+ .text          0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .data          0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .bss           0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_PSP
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_PSP
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_MSP
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_MSP
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_BASEPRI
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_BASEPRI
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_PRIMASK
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_PRIMASK
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_FAULTMASK
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_FAULTMASK
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__get_CONTROL
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__set_CONTROL
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__REV    0x00000000        0x4 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__REV16  0x00000000        0x4 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__REVSH  0x00000000        0x4 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__RBIT   0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__LDREXB
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__LDREXH
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__LDREXW
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__STREXB
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__STREXH
+                0x00000000        0x8 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .text.__STREXW
+                0x00000000        0x6 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .comment       0x00000000       0x6f /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
+ .ARM.attributes
+                0x00000000       0x33 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
  .text          0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/main.o
  .data          0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/main.o
  .bss           0x00000000        0x0 /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/main.o
@@ -1132,6 +1178,7 @@ Linker script and memory map
 LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/crti.o
 LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/crtbegin.o
 LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/../../../../arm-none-eabi/lib/armv7-m/crt0.o
+LOAD /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/core_cm3.o
 LOAD /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/main.o
 LOAD /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/misc.o
 LOAD /home/wanglinbin/ST/STM32-build-in-linux/st_in_linux/debug/obj/startup_stm32f10x_hd.o
@@ -1171,7 +1218,7 @@ END GROUP
 LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/crtend.o
 LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/armv7-m/crtn.o
                 0x20010000                _estack = 0x20010000
-                0x00000000                _Min_Heap_Size = 0x0
+                0x00000200                _Min_Heap_Size = 0x200
                 0x00000800                _Min_Stack_Size = 0x800
 
 .isr_vector     0x08000000      0x1e4
@@ -1464,12 +1511,13 @@ LOAD /home/wanglinbin/ST/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.2.1/ar
                 [!provide]                PROVIDE (_end, _ebss)
 
 ._user_heap_stack
-                0x20000030      0x800 load address 0x08000880
+                0x20000030      0xa00 load address 0x08000880
                 0x20000030                . = ALIGN (0x4)
-                0x20000030                . = (. + _Min_Heap_Size)
-                0x20000830                . = (. + _Min_Stack_Size)
- *fill*         0x20000030      0x800 
-                0x20000830                . = ALIGN (0x4)
+                0x20000230                . = (. + _Min_Heap_Size)
+ *fill*         0x20000030      0x200 
+                0x20000a30                . = (. + _Min_Stack_Size)
+ *fill*         0x20000230      0x800 
+                0x20000a30                . = ALIGN (0x4)
 
 .memory_b1_text
  *(.mb1text)
