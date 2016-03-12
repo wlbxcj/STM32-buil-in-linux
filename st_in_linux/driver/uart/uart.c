@@ -46,7 +46,7 @@ void USART_Configuration(void)
     //******************************************************************************
     // ∩??迆12?那y3?那??‘?“辰?2?﹞?,∩??迆12?那y?a38400 ㏒? 8 ㏒?1 ㏒?N  ?車那??D??﹞?那?
     //******************************************************************************
-    USART_InitStructure.USART_BaudRate=9600;                        //谷豕?“∩?那??迄?那
+    USART_InitStructure.USART_BaudRate=115200;                        //谷豕?“∩?那??迄?那
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;     //∩?那?那y?Y??那y
     USART_InitStructure.USART_StopBits = USART_StopBits_1;          //谷豕?“赤㏒?1????那y  
     USART_InitStructure.USART_Parity = USART_Parity_No;             //2?車??足?谷??
