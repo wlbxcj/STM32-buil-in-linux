@@ -30,7 +30,12 @@ OS_CPU_O    =   os_cpu_a.o
 OBJS_DIR	=	debug/obj
 EXEC_DIR	= 	debug/Exc
 CUF_OBJ     =   ${patsubst %.c, %.o, $(TARGET_SOURCE)}
-ALL_O		= 	$(ROOT_DIR)/$(OBJS_DIR)/*.o
+#ALL_O		= 	$(ROOT_DIR)/$(OBJS_DIR)/*.o
+ALL_C		= 	$(notdir $(shell find -name "*.c"))
+#ALL_C		-= 	stm32f10x_it.c main.c
+ALL_B		= 	${patsubst %.c, %.o, $(ALL_C)}
+ALL_B		+= 	$(BUILD_S) $(OS_CPU_O)
+ALL_O		= 	$(foreach n, $(ALL_B), $(ROOT_DIR)/$(OBJS_DIR)/$(n))
 
 INCS += -I$(ROOT_DIR) -I$(ROOT_DIR)/stlib -I$(ROOT_DIR)/stlib/cminc -I$(ROOT_DIR)/stlib/inc  -I$(ROOT_DIR)/driver/uart -I$(ROOT_DIR)/driver/led \
 		-I$(ROOT_DIR)/App -I$(ROOT_DIR)/BSP -I$(ROOT_DIR)/uCOS_Ports -I$(ROOT_DIR)/uCOS_Source -I$(ROOT_DIR)/user -I$(ROOT_DIR)/driver/uart \
